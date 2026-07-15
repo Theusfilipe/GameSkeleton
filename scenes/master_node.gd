@@ -21,5 +21,3 @@ func _load_scene(path : String) -> void:
 		var current_scene = get_child(0)
 		add_child(next_scene)
 		current_scene.queue_free()
-	
-	pass
