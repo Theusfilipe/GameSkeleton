@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://bg8bv1g13b3fo"]
+
+[node name="SaveUnitScene" type="Control" unique_id=424454023]
+custom_maximum_size = Vector2(220, 80)
+layout_mode = 3
+anchor_right = 0.712
+anchor_bottom = 0.61700004
+offset_right = -600.0
+offset_bottom = -320.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=431990610]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5937517, 0.22939831, 0.24505484, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1341345709]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer" unique_id=1862111536]
+layout_mode = 2
+text = "SaveName"
+horizontal_alignment = 1
+
+[node name="DateLabel" type="Label" parent="VBoxContainer" unique_id=989756568]
+layout_mode = 2
+text = "20/07/2026"
+
+[node name="PlaceLabel" type="Label" parent="VBoxContainer" unique_id=1251873203]
+layout_mode = 2
+text = "The Deep Roads"

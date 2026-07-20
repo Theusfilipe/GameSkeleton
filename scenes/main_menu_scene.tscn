@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dyvsfntf4qjpc"]
 
+[ext_resource type="Script" uid="uid://bviyihxjlucft" path="res://scenes/main_menu_scene.gd" id="1_7hcs8"]
 [ext_resource type="Texture2D" uid="uid://d1q8v3ejljc68" path="res://art/title_screen/title_screen_background.jpg" id="1_vfskp"]
 [ext_resource type="AudioStream" uid="uid://bgfw4ca6mf2gs" path="res://art/music/Starting Out Waltz Vivace.mp3" id="2_7hcs8"]
 
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7hcs8")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1694547597]
 layout_mode = 1
@@ -43,25 +45,35 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="StartButton" type="Button" parent="CenterContainer/MainMenuContainer/MenuButtonsContainer" unique_id=1415037722]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Start"
 
 [node name="SavesButton" type="Button" parent="CenterContainer/MainMenuContainer/MenuButtonsContainer" unique_id=466512777]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Load
 "
 
 [node name="OptionsButton" type="Button" parent="CenterContainer/MainMenuContainer/MenuButtonsContainer" unique_id=1115122222]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Options
 "
 
 [node name="CreditsButton" type="Button" parent="CenterContainer/MainMenuContainer/MenuButtonsContainer" unique_id=1274880544]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
 
 [node name="AudioNode" type="Node" parent="." unique_id=952995054]
+unique_name_in_owner = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioNode" unique_id=1130354468]
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="AudioNode" unique_id=1130354468]
 stream = ExtResource("2_7hcs8")
 autoplay = true
+
+[connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/SavesButton" to="." method="_on_saves_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]

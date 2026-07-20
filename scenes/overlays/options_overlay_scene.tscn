@@ -1,0 +1,206 @@
+[gd_scene format=3 uid="uid://dmfk6q1ll3d6b"]
+
+[ext_resource type="Script" uid="uid://dtxyd88kq0m6a" path="res://scenes/overlays/options_overlay_scene.gd" id="1_gl3hq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_laidp"]
+bg_color = Color(0.11119685, 0.11119685, 0.11119678, 1)
+border_color = Color(0.06469657, 0.06469653, 0.06469646, 1)
+
+[node name="OptionsOverlayScene" type="Control" unique_id=311195503]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gl3hq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1580693446]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.24477637, 0.2447764, 0.24477637, 0.47058824)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=933004300]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=225414822]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+color = Color(0.82102555, 0.73827195, 0.37829387, 1)
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer" unique_id=1183860506]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+current_tab = 2
+
+[node name="Video" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=697462474]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/TabContainer/Video" unique_id=1977907814]
+layout_mode = 2
+
+[node name="VideoOptionsContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Video/CenterContainer" unique_id=148551281]
+layout_mode = 2
+
+[node name="WindowModeCheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer" unique_id=646359302]
+layout_mode = 2
+text = "Window Mode"
+
+[node name="VSyncCheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer" unique_id=26588938]
+layout_mode = 2
+text = "VSync"
+
+[node name="Audio" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=1460997739]
+visible = false
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/TabContainer/Audio" unique_id=815774040]
+layout_mode = 2
+
+[node name="AudioOptionsContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Audio/CenterContainer" unique_id=1961079101]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+
+[node name="MasterVolumeContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer" unique_id=1929464639]
+layout_mode = 2
+alignment = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/MasterVolumeContainer2" unique_id=605195688]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/MasterVolumeContainer2" unique_id=1527282128]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+value = 100.0
+rounded = true
+scrollable = false
+ticks_on_borders = true
+
+[node name="SFXVolumeContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer" unique_id=1622537169]
+layout_mode = 2
+alignment = 2
+
+[node name="SFXVolumeLabel" type="Label" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer2" unique_id=1117292809]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer2" unique_id=907379767]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+value = 100.0
+rounded = true
+scrollable = false
+ticks_on_borders = true
+
+[node name="SFXVolumeContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer" unique_id=1452203042]
+layout_mode = 2
+alignment = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer" unique_id=750311757]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer" unique_id=1220139374]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+value = 100.0
+rounded = true
+scrollable = false
+ticks_on_borders = true
+
+[node name="Gameplay" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=700508054]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/TabContainer/Gameplay" unique_id=603869564]
+layout_mode = 2
+
+[node name="GameplayOptionsContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Gameplay/CenterContainer" unique_id=1485989897]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+
+[node name="DifficultyContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer" unique_id=661108531]
+layout_mode = 2
+alignment = 1
+
+[node name="DifficultyLabel" type="Label" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=164657009]
+layout_mode = 2
+text = "Difficulty"
+
+[node name="EasyButton" type="Button" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=158861962]
+layout_mode = 2
+text = "Easy"
+
+[node name="MediumButton" type="Button" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=2121502048]
+layout_mode = 2
+text = "Medium"
+
+[node name="HardButton" type="Button" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=1814985857]
+layout_mode = 2
+text = "Hard"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer" unique_id=162556882]
+layout_mode = 2
+alignment = 1
+
+[node name="LanguageLabel" type="Label" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=586427003]
+layout_mode = 2
+text = "Language"
+
+[node name="LanguageMenuButton" type="MenuButton" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=931653843]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_laidp")
+text = "English"
+item_count = 2
+popup/item_0/text = "Portuguese"
+popup/item_0/checkable = 2
+popup/item_0/checked = true
+popup/item_0/id = 0
+popup/item_1/text = "English"
+popup/item_1/checkable = 2
+popup/item_1/id = 1
+
+[node name="CloseOverlayButton" type="Button" parent="MarginContainer" unique_id=75960822]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X"
+
+[connection signal="pressed" from="MarginContainer/CloseOverlayButton" to="." method="_on_close_overlay_button_pressed"]

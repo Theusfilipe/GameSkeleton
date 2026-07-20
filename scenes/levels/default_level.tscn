@@ -1,3 +1,38 @@
 [gd_scene format=3 uid="uid://dud1a8rpipau4"]
 
-[node name="DefaultLevel" type="Node2D" unique_id=1330097035]
+[ext_resource type="Script" uid="uid://4vjkg4ce4t0m" path="res://scenes/levels/default_level.gd" id="1_3t7qk"]
+[ext_resource type="Texture2D" uid="uid://b5tbj0e51pdxn" path="res://art/levels/LevelBackground.png" id="1_qynkw"]
+[ext_resource type="PackedScene" uid="uid://dc3acol4ejwp5" path="res://scenes/player/player.tscn" id="2_dpfjh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_laidp"]
+atlas = ExtResource("1_qynkw")
+region = Rect2(8, 20, 511, 433)
+
+[node name="DefaultLevel" type="Node" unique_id=1486081524]
+script = ExtResource("1_3t7qk")
+
+[node name="Control" type="Control" parent="." unique_id=277462321]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=418684553]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundTexture" type="TextureRect" parent="Control/MarginContainer" unique_id=638150470]
+layout_mode = 2
+texture = SubResource("AtlasTexture_laidp")
+
+[node name="LevelEnviroment" type="Node2D" parent="." unique_id=476716239]
+
+[node name="Player" parent="LevelEnviroment" unique_id=1223239661 instance=ExtResource("2_dpfjh")]
+unique_name_in_owner = true
+position = Vector2(33, 314)

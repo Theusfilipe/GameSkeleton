@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://dc3acol4ejwp5"]
+
+[ext_resource type="Texture2D" uid="uid://b36a0qkhej4ev" path="res://art/levels/spritesheet.png" id="1_8afob"]
+[ext_resource type="Script" uid="uid://dyvudcg6iehel" path="res://scenes/player/player.gd" id="1_dovo2"]
+
+[sub_resource type="Animation" id="Animation_dovo2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.06666667, 0.4666667, 1, 1.5333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_gmlin"]
+resource_name = "flying_bird_animation"
+length = 1.6666666
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667, 0.7679, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1.5157161, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvxji"]
+_data = {
+&"RESET": SubResource("Animation_dovo2"),
+&"flying_bird_animation": SubResource("Animation_gmlin")
+}
+
+[node name="Player" type="Node2D" unique_id=1223239661]
+script = ExtResource("1_dovo2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1321105588]
+texture = ExtResource("1_8afob")
+hframes = 3
+region_rect = Rect2(0, 0, 43, 40)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1464951080]
+libraries/ = SubResource("AnimationLibrary_lvxji")
