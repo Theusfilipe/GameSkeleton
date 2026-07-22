@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://7w2nuac5ersw"]
+
+[node name="CreditsOverlayScene" type="Control" unique_id=1353660682]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2068598104]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07683582, 0.07683582, 0.07683582, 0.3882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1443145989]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer" unique_id=575132303]
+custom_minimum_size = Vector2(1150, 650)
+custom_maximum_size = Vector2(1150, 650)
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Background" type="ColorRect" parent="CenterContainer/MarginContainer" unique_id=686319896]
+propagate_maximum_size = true
+layout_mode = 2
+color = Color(0.81960785, 0.7372549, 0.3764706, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer" unique_id=123616512]
+layout_mode = 2
+theme_override_constants/margin_top = 30
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/MarginContainer" unique_id=236930904]
+layout_mode = 2
+text = "Development Team
+Project Lead: [Name]
+Programming: [Name]
+[Name]
+[Name]
+[Name]
+Art & Design: [Name]
+[Name]
+[Name]
+[Name]
+[Name]
+Writing: [Name]
+[Name]
+Audio & Music: [Name]
+Additional Contributors
+[Contributor Name]
+[Contributor Name]
+[Contributor Name]
+[Contributor Name]
+[Contributor Name]
+[Contributor Name]
+[Contributor Name]
+Playtesters
+[Name]
+[Name]
+[Name]
+Tools & Resources
+[Software / Engine]
+[Asset Sources]
+[Libraries / Frameworks]
+Special Thanks
+
+To our friends, family, community members, and everyone who helped make this project possible.
+
+© [Year] [Project Name]. All rights reserved."
+autowrap_mode = 0
+
+[node name="CloseButton" type="Button" parent="." unique_id=276472646]
+layout_mode = 0
+offset_left = 1083.0
+offset_top = 49.0
+offset_right = 1101.0
+offset_bottom = 80.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X"
+alignment = 2

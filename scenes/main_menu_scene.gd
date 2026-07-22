@@ -5,6 +5,7 @@ signal start_button_pressed
 signal saves_button_pressed
 signal options_button_pressed
 signal credits_button_pressed
+signal exit_button_pressed
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,3 +32,6 @@ func _on_options_button_pressed() -> void:
 
 func _on_credits_button_pressed() -> void:
 	credits_button_pressed.emit()
+
+func _on_exit_button_pressed() -> void:
+	exit_button_pressed.emit()

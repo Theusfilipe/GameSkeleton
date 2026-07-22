@@ -2,12 +2,13 @@ extends Node
 
 @export_file("*.tscn") var main_menu_scene_path : String = "res://scenes/main_menu_scene.tscn"
 @export_file("*.tscn") var options_overlay_scene_path : String = "res://scenes/overlays/options_overlay_scene.tscn"
+@export_file("*.tscn") var saves_overlay_scene_path : String = "res://scenes/overlays/saves_overlay_scene.tscn"
 @export_file("*.tscn") var default_level_scene_path : String = "res://scenes/levels/default_level.tscn"
 
 var _instanced_main_menu_screen : MainMenuScene
 var _instanced_options_overlay_screen : OptionsOverlayScene
 var _instanced_default_level : DefaultLevelScene
-
+var _instanced_saves_overlay_screen : SavesOverlayScene
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_load_main_menu_scene()
@@ -47,12 +48,16 @@ func _on_start_button_pressed() -> void :
 	pass
 
 func _on_saves_button_pressed() -> void :
-	pass
+	_instanced_saves_overlay_screen = load(saves_overlay_scene_path).instantiate()
+	add_child(_instanced_saves_overlay_screen)
+	_instanced_saves_overlay_screen.close_button_pressed.connect(_on_close_save_overlay_button)
 
 func _on_options_button_pressed() -> void :
 	_instanced_options_overlay_screen = load(options_overlay_scene_path).instantiate()
 	add_child(_instanced_options_overlay_screen)
 	_instanced_options_overlay_screen.close_button_pressed.connect(_on_close_options_overlay_button)
+	_instanced_options_overlay_screen.window_mode_toggled.connect(_on_window_mode_toggled)
+	_instanced_options_overlay_screen.v_sync_toggled.connect(_on_v_sync_toggled)
 	
 func _on_credits_button_pressed() -> void:
 	pass
@@ -60,5 +65,21 @@ func _on_credits_button_pressed() -> void:
 #From Options
 func _on_close_options_overlay_button() -> void:
 	_instanced_options_overlay_screen.queue_free()
-	
+
+func _on_window_mode_toggled(response : bool) -> void:
+	var window = get_window()
+	if response:
+		window.mode = Window.MODE_WINDOWED
+	else:
+		window.mode = Window.MODE_FULLSCREEN
+		
+func _on_v_sync_toggled(response : bool) -> void:
+	if response:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+#From Saves
+func _on_close_save_overlay_button() -> void:
+	_instanced_saves_overlay_screen.queue_free()
 #endregion
