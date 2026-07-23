@@ -13,22 +13,9 @@ var _instanced_saves_overlay_screen : SavesOverlayScene
 var _instanced_credits_overlay_screen : CreditsOverlayScene
 
 
-var myfloat := [0.0]
-var mystr := [""]
-var values := [2.0, 4.0, 0.0, 3.0, 1.0, 5.0]
-var items := ["zero", "one", "two", "three", "four", "five"]
-var current_item := [2]
-var anim_counter := 0
-var wc_topmost: ImGuiWindowClassPtr
-var ms_items := items
-var ms_selection := []
-var table_items := []
-
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
+	#current_window_mode = Window.mode
 	_load_main_menu_scene()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -133,7 +120,7 @@ func _on_quit_game_button_pressed() -> void:
 #region Debug
 
 func debug() -> void:
-	
+	ImGui.ShowDemoWindow()
 	ImGui.Begin("ImGui")
 	ImGui.Text(get_child(0).name)
 	if ImGui.Button("Start game"):
@@ -146,5 +133,15 @@ func debug() -> void:
 		_on_credits_button_pressed()
 	if ImGui.Button("Quit"):
 		_on_quit_game_button_pressed()
-	ImGui.End()
+	ImGui.SeparatorText("Options")
 	
+	ImGui.BeginTabBar("Settings#left_tabs_bar")
+	if ImGui.BeginTabItem("Video"):
+		
+		
+		
+		ImGui.EndTabItem()
+	
+	ImGui.EndTabBar()
+	
+	ImGui.End()
