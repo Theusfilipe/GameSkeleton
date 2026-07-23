@@ -66,6 +66,10 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
 
+[node name="QuitGameButton" type="Button" parent="CenterContainer/MainMenuContainer/MenuButtonsContainer" unique_id=1995239436]
+layout_mode = 2
+text = "Quit Game"
+
 [node name="AudioNode" type="Node" parent="." unique_id=952995054]
 unique_name_in_owner = true
 
@@ -77,3 +81,4 @@ autoplay = true
 [connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/SavesButton" to="." method="_on_saves_button_pressed"]
 [connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MainMenuContainer/MenuButtonsContainer/QuitGameButton" to="." method="_on_quit_game_button_pressed"]

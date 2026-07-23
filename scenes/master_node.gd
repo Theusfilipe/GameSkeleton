@@ -9,15 +9,29 @@ var _instanced_main_menu_screen : MainMenuScene
 var _instanced_options_overlay_screen : OptionsOverlayScene
 var _instanced_default_level : DefaultLevelScene
 var _instanced_saves_overlay_screen : SavesOverlayScene
+
+
+var myfloat := [0.0]
+var mystr := [""]
+var values := [2.0, 4.0, 0.0, 3.0, 1.0, 5.0]
+var items := ["zero", "one", "two", "three", "four", "five"]
+var current_item := [2]
+var anim_counter := 0
+var wc_topmost: ImGuiWindowClassPtr
+var ms_items := items
+var ms_selection := []
+var table_items := []
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_load_main_menu_scene()
-	pass # Replace with function body.
 
+	_load_main_menu_scene()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+func _process(delta: float) -> void:
+	debug()
 
 
 func _load_main_menu_scene() -> void:
@@ -33,7 +47,7 @@ func _load_main_menu_scene() -> void:
 	_instanced_main_menu_screen.saves_button_pressed.connect(_on_saves_button_pressed)
 	_instanced_main_menu_screen.options_button_pressed.connect(_on_options_button_pressed)
 	_instanced_main_menu_screen.credits_button_pressed.connect(_on_credits_button_pressed)
-
+	_instanced_main_menu_screen.quit_game_button_pressed.connect(_on_quit_game_button_pressed)
 
 #region Signals
 #From Main Menu
@@ -45,7 +59,6 @@ func _on_start_button_pressed() -> void :
 		var current_scene = get_child(0)
 		add_child(_instanced_default_level)
 		current_scene.queue_free()
-	pass
 
 func _on_saves_button_pressed() -> void :
 	_instanced_saves_overlay_screen = load(saves_overlay_scene_path).instantiate()
@@ -82,4 +95,21 @@ func _on_v_sync_toggled(response : bool) -> void:
 #From Saves
 func _on_close_save_overlay_button() -> void:
 	_instanced_saves_overlay_screen.queue_free()
+	
+#Quit game
+func _on_quit_game_button_pressed() -> void:
+	get_tree().quit() 
 #endregion
+
+
+#region Debug
+
+func debug() -> void:
+	
+	ImGui.Begin("ImGui")
+	ImGui.Text(get_child(0).name)
+	if ImGui.Button("Start game"):
+		_on_start_button_pressed()
+	
+	ImGui.End()
+	
