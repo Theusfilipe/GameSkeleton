@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://7w2nuac5ersw"]
 
+[ext_resource type="Script" uid="uid://bohxe3awx2yqv" path="res://scenes/overlays/credits_overlay_scene.gd" id="1_onjci"]
+
 [node name="CreditsOverlayScene" type="Control" unique_id=1353660682]
 layout_mode = 3
 anchors_preset = 15
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_onjci")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=2068598104]
 layout_mode = 1
@@ -45,6 +48,7 @@ theme_override_constants/margin_top = 30
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/MarginContainer" unique_id=236930904]
 layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Development Team
 Project Lead: [Name]
 Programming: [Name]
@@ -92,3 +96,5 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "X"
 alignment = 2
+
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]
