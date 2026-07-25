@@ -24,7 +24,8 @@ func _process(delta: float) -> void:
 
 
 func _load_main_menu_scene() -> void:
-	_instanced_main_menu_screen = load(main_menu_scene_path).instantiate()
+	if _instanced_main_menu_screen == null:
+		_instanced_main_menu_screen = load(main_menu_scene_path).instantiate()
 	if get_child_count() == 0:
 		add_child(_instanced_main_menu_screen)
 	else:
@@ -67,6 +68,9 @@ func _on_options_button_pressed() -> void :
 		_instanced_options_overlay_screen.close_button_pressed.connect(_on_close_options_overlay_button)
 		_instanced_options_overlay_screen.window_mode_toggled.connect(_on_window_mode_toggled)
 		_instanced_options_overlay_screen.v_sync_toggled.connect(_on_v_sync_toggled)
+		_instanced_options_overlay_screen.master_volume_changed.connect(_on_master_volume_changed)
+		_instanced_options_overlay_screen.music_volume_changed.connect(_on_music_volume_changed)
+		_instanced_options_overlay_screen.sfx_volume_changed.connect(_on_sfx_volume_changed)
 	else:
 		print("_instanced_options_overlay_screen is instantiated")
 
@@ -82,14 +86,28 @@ func _on_window_mode_toggled(response : bool) -> void:
 	var window = get_window()
 	if response:
 		window.mode = Window.MODE_WINDOWED
+		OptionsSettings.window_mode = Window.MODE_WINDOWED
 	else:
 		window.mode = Window.MODE_FULLSCREEN
+		OptionsSettings.window_mode = Window.MODE_FULLSCREEN
 		
 func _on_v_sync_toggled(response : bool) -> void:
 	if response:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+		OptionsSettings.VSync = DisplayServer.VSYNC_ENABLED
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		OptionsSettings.VSync = DisplayServer.VSYNC_DISABLED
+func _on_master_volume_changed( value : float)-> void:
+	OptionsSettings.master_audio_level = value
+	
+	pass
+func _on_music_volume_changed( value : float)-> void:
+	OptionsSettings.music_audio_level = value
+	pass
+func _on_sfx_volume_changed( value : float)-> void:
+	OptionsSettings.sfx_audio_level = value
+	pass
 
 #From Saves
 func _on_close_save_overlay_button() -> void:
@@ -137,9 +155,16 @@ func debug() -> void:
 	
 	ImGui.BeginTabBar("Settings#left_tabs_bar")
 	if ImGui.BeginTabItem("Video"):
-		
-		
-		
+		if ImGui.Button(str(OptionsSettings.window_mode)):
+			if(OptionsSettings.window_mode == Window.MODE_FULLSCREEN):
+				_on_window_mode_toggled(true) #se estiver fullscreen seta para windowed
+			else:
+				_on_window_mode_toggled(false) # se estiver windowed seta para fullscreen
+		if ImGui.Button(str(OptionsSettings.VSync)):
+			if(OptionsSettings.VSync == DisplayServer.VSYNC_DISABLED):
+				_on_v_sync_toggled(true) # se estiver vsinc disabled seta para disabled
+			else:
+				_on_v_sync_toggled(false) # se estiver vsinc enabled seta para disabled
 		ImGui.EndTabItem()
 	
 	ImGui.EndTabBar()

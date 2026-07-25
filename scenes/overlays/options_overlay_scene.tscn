@@ -48,9 +48,10 @@ color = Color(0.82102555, 0.73827195, 0.37829387, 1)
 light_mask = 2
 visibility_layer = 2
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Video" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=697462474]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -65,15 +66,16 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="WindowModeCheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer" unique_id=646359302]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Window Mode"
 
 [node name="VSyncCheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer" unique_id=26588938]
+unique_name_in_owner = true
 layout_mode = 2
 text = "VSync"
 
 [node name="Audio" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=1460997739]
-visible = false
 light_mask = 2
 visibility_layer = 2
 layout_mode = 2
@@ -98,7 +100,8 @@ alignment = 2
 layout_mode = 2
 text = "Master Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/MasterVolumeContainer2" unique_id=1527282128]
+[node name="MasterVolumeHSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/MasterVolumeContainer2" unique_id=1527282128]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 value = 100.0
@@ -114,7 +117,8 @@ alignment = 2
 layout_mode = 2
 text = "SFX Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer2" unique_id=907379767]
+[node name="SFXVolumeHSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer2" unique_id=907379767]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 value = 100.0
@@ -130,7 +134,8 @@ alignment = 2
 layout_mode = 2
 text = "Music Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer" unique_id=1220139374]
+[node name="MusicHSlider" type="HSlider" parent="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer" unique_id=1220139374]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 value = 100.0
@@ -205,4 +210,7 @@ text = "X"
 
 [connection signal="toggled" from="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer/WindowModeCheckBox" to="." method="_on_window_mode_check_box_toggled"]
 [connection signal="toggled" from="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer/VSyncCheckBox" to="." method="_on_v_sync_check_box_toggled"]
+[connection signal="drag_ended" from="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/MasterVolumeContainer2/MasterVolumeHSlider" to="." method="_on_master_volume_h_slider_drag_ended"]
+[connection signal="drag_ended" from="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer2/SFXVolumeHSlider" to="." method="_on_sfx_volume_h_slider_drag_ended"]
+[connection signal="drag_ended" from="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer/MusicHSlider" to="." method="_on_music_h_slider_drag_ended"]
 [connection signal="pressed" from="MarginContainer/CloseOverlayButton" to="." method="_on_close_overlay_button_pressed"]
