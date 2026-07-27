@@ -27,8 +27,6 @@ func _process(delta: float) -> void:
 		loops_label.text = str(loops)
 
 
-
-
 func _on_pause_button_pressed() -> void:
 	on_pause_game.emit()
 	
