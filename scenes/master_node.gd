@@ -50,6 +50,8 @@ func _on_start_button_pressed() -> void :
 			var current_scene = get_child(0)
 			add_child(_instanced_default_level)
 			current_scene.queue_free()
+
+		_instanced_default_level.on_pause_game.connect(_on_pause_game_button)
 	else:
 		print("_instanced_default_level is instantiated")
 
@@ -74,6 +76,11 @@ func _on_options_button_pressed() -> void :
 	else:
 		print("_instanced_options_overlay_screen is instantiated")
 
+#From game
+
+func _on_pause_game_button() -> void: #Not implemented yet, it sends back to main menu instead.
+	_load_main_menu_scene()
+	
 
 #From Options
 func _on_close_options_overlay_button() -> void:

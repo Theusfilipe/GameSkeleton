@@ -32,8 +32,8 @@ func _ready() -> void:
 	music_h_slider.value = OptionsSettings.music_audio_level
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
-func _process(delta: float) -> void:
-	pass
+#func _process(delta: float) -> void:
+#	pass
 
 
 func _on_close_overlay_button_pressed() -> void:

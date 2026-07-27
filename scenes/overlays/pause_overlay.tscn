@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bs2qqjoymomqw"]
+
+[ext_resource type="Script" uid="uid://cwh40f8dvjggk" path="res://scenes/overlays/pause_overlay.gd" id="1_4ffar"]
+
+[node name="PauseOverlay" type="Control" unique_id=1030614994]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ffar")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=711500681]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10747976, 0.10747973, 0.10747973, 0.2)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1113319008]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer" unique_id=906305461]
+custom_minimum_size = Vector2(300, 500)
+custom_maximum_size = Vector2(300, 500)
+layout_mode = 2
+color = Color(0.81960785, 0.7372549, 0.3764706, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer" unique_id=210044277]
+custom_minimum_size = Vector2(300, 500)
+custom_maximum_size = Vector2(300, 500)
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer" unique_id=1347944566]
+layout_mode = 2
+
+[node name="Main Menu" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer" unique_id=1454818229]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Main Menu"
+
+[node name="UnpauseButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer" unique_id=551401025]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Unpause"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/UnpauseButton" to="." method="_on_unpause_button_pressed"]

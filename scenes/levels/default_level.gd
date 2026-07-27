@@ -1,12 +1,41 @@
 class_name DefaultLevelScene
 extends Node
 
+signal on_pause_game
+
+var player_speed := [1.0]
+
+var loops = 0
+
 @onready var player: Player = %Player
 
-@export var speed : float = 1.0
+@onready var trampoline_player: AudioStreamPlayer = %TrampolinePlayer
+
+@onready var loops_label: Label = %LoopsLabel
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	player.position.x = player.position.x + speed
-	pass
+	debug()
+	if player.position.x > 1100:
+		trampoline_player.play()
+	if player.position.x > 1150:
+		player.position.x = -30
+		loops +=1
+		loops_label.text = str(loops)
+
+
+
+
+func _on_pause_button_pressed() -> void:
+	on_pause_game.emit()
+	
+#region Debug
+
+func debug() -> void:
+	ImGui.Begin("Gameplay")
+	player_speed[0] = player.speed
+	ImGui.DragFloat("Player speed", player_speed)
+	player.speed = player_speed[0]
+	ImGui.End()
+	

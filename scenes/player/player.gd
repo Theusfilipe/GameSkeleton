@@ -1,6 +1,9 @@
 class_name Player
 extends Node2D
 
+
+@export var speed : float = 1.0
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
@@ -12,4 +15,4 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	position.x = position.x + speed
