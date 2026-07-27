@@ -5,17 +5,21 @@ extends Node
 @export_file("*.tscn") var saves_overlay_scene_path : String = "res://scenes/overlays/saves_overlay_scene.tscn"
 @export_file("*.tscn") var default_level_scene_path : String = "res://scenes/levels/default_level.tscn"
 @export_file("*.tscn") var credits_overlay_scene_path : String = "res://scenes/overlays/credits_overlay_scene.tscn"
+@export_file("*.tscn") var pause_overlay_scene_path : String = "res://scenes/overlays/pause_overlay_scene.tscn"
+
 
 var _instanced_main_menu_screen : MainMenuScene
 var _instanced_options_overlay_screen : OptionsOverlayScene
 var _instanced_default_level : DefaultLevelScene
 var _instanced_saves_overlay_screen : SavesOverlayScene
 var _instanced_credits_overlay_screen : CreditsOverlayScene
+var _instanced_pause_overlay_screen : PauseOverlayScene
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#current_window_mode = Window.mode
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_main_menu_scene()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -79,8 +83,22 @@ func _on_options_button_pressed() -> void :
 #From game
 
 func _on_pause_game_button() -> void: #Not implemented yet, it sends back to main menu instead.
+	_instanced_pause_overlay_screen = load(pause_overlay_scene_path).instantiate()
+	get_tree().paused = true
+	add_child(_instanced_pause_overlay_screen)
+	_instanced_pause_overlay_screen.unpause.connect(_on_unpause)
+	_instanced_pause_overlay_screen.main_menu_request.connect(_on_main_menu_requested_from_pause)
+
+#From Pause Overlay
+
+func _on_unpause() -> void:
+	get_tree().paused = false
+	_instanced_pause_overlay_screen.queue_free()
+
+func _on_main_menu_requested_from_pause() -> void:
+	get_tree().paused = false
+	_instanced_pause_overlay_screen.queue_free()
 	_load_main_menu_scene()
-	
 
 #From Options
 func _on_close_options_overlay_button() -> void:

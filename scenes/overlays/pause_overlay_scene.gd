@@ -1,3 +1,4 @@
+class_name PauseOverlayScene
 extends Control
 
 signal main_menu_request
@@ -7,6 +8,7 @@ signal unpause
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pause.emit()
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
