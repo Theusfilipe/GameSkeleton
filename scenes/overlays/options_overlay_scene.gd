@@ -1,6 +1,9 @@
 class_name OptionsOverlayScene
 extends Control
 
+#TODO: Refazer dificuldade como toggle buttons, e usar button group
+# TODO: Refazer language como OptionButton
+
 signal close_button_pressed
 signal window_mode_toggled(bool)
 signal v_sync_toggled(bool)

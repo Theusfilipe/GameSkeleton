@@ -15,10 +15,14 @@ run/main_scene="uid://dh0fo4srbp5mx"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://bcp7ngbmhjbdb"
+
 [autoload]
 
 ImGuiRoot="*uid://dugmpnsxaagba"
-OptionsSettings="*uid://c71srq3i5w6p0"
+OptionsSettings="*uid://b2rhvsafhcpl6"
 
 [display]
 
@@ -29,6 +33,10 @@ window/stretch/aspect="expand"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/imgui-godot/plugin.cfg")
+
+[global_group]
+
+saveable=""
 
 [physics]
 

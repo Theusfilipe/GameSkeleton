@@ -4,3 +4,5 @@
 
 [node name="MasterNode" type="Node" unique_id=608431954]
 script = ExtResource("1_smsg0")
+debug_mode = true
+log = true

@@ -1,5 +1,11 @@
 extends Node
 
+# NOTE: O master deve se preocupar com os macro-estados do jogo
+# exemplo: do title pra game, da game pra results, e por aí vai
+# não necessariamente ele vai se preocupar com overlays individuais
+# pode ser interessante deixar overlays como responsabildiade das scenes
+# de estado onde eles aparecem
+
 @export_file("*.tscn") var main_menu_scene_path : String = "res://scenes/main_menu_scene.tscn"
 @export_file("*.tscn") var options_overlay_scene_path : String = "res://scenes/overlays/options_overlay_scene.tscn"
 @export_file("*.tscn") var saves_overlay_scene_path : String = "res://scenes/overlays/saves_overlay_scene.tscn"
@@ -7,6 +13,9 @@ extends Node
 @export_file("*.tscn") var credits_overlay_scene_path : String = "res://scenes/overlays/credits_overlay_scene.tscn"
 @export_file("*.tscn") var pause_overlay_scene_path : String = "res://scenes/overlays/pause_overlay_scene.tscn"
 
+@export_category("Debug")
+@export var debug_mode: bool
+@export var log: bool
 
 var _instanced_main_menu_screen : MainMenuScene
 var _instanced_options_overlay_screen : OptionsOverlayScene
@@ -15,10 +24,14 @@ var _instanced_saves_overlay_screen : SavesOverlayScene
 var _instanced_credits_overlay_screen : CreditsOverlayScene
 var _instanced_pause_overlay_screen : PauseOverlayScene
 
+# TODO: usar uma variável única para guardar "categorias" de estados do jogo
+#var _current_scene: Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#current_window_mode = Window.mode
+	# TODO: Caso seja um estado permanente, mudar no inspector, para fazer parte
+	# dos defaults do node
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_main_menu_scene()
 
@@ -43,6 +56,21 @@ func _load_main_menu_scene() -> void:
 	_instanced_main_menu_screen.credits_button_pressed.connect(_on_credits_button_pressed)
 	_instanced_main_menu_screen.quit_game_button_pressed.connect(_on_quit_game_button_pressed)
 
+#region Exemplo de encapsulação da lógica de loading onde
+# NOTE: Aqui retornaremos a scene instanciada para que possamos
+# nos conectar aos signals dela
+# TODO: Implementar loading e fade in/fade out a partir dessa nova lógica
+
+#func _change_scene(new_scene: String) -> Node:
+	# ver se já tem uma scene ligada
+	# se tiver, desinstanciar ela
+	# instanciar a scene nova
+	# retornar a scene instanciada
+
+#func _go_to_game():
+	#var game: Game = _change_scene(_game_scene)
+	#game.si
+
 #region Signals
 #From Main Menu
 func _on_start_button_pressed() -> void :
@@ -57,7 +85,8 @@ func _on_start_button_pressed() -> void :
 
 		_instanced_default_level.on_pause_game.connect(_on_pause_game_button)
 	else:
-		print("_instanced_default_level is instantiated")
+		# NOTE: exemplo de uso da bool log para logar coisas pertinentes a essa classe
+		if log: print("_instanced_default_level is instantiated")
 
 func _on_saves_button_pressed() -> void :
 	if _instanced_saves_overlay_screen == null :
@@ -68,6 +97,8 @@ func _on_saves_button_pressed() -> void :
 		print("_instanced_saves_overlay_screen is instantiated")
 
 func _on_options_button_pressed() -> void :
+	# TODO: a lógica de como options functionam está acoplada ao main
+	# ela deveria estar em outro lugar específico ao options
 	if _instanced_options_overlay_screen == null :
 		_instanced_options_overlay_screen = load(options_overlay_scene_path).instantiate()
 		add_child(_instanced_options_overlay_screen)
@@ -130,6 +161,7 @@ func _on_master_volume_changed( value : float)-> void:
 func _on_music_volume_changed( value : float)-> void:
 	OptionsSettings.music_audio_level = value
 	pass
+
 func _on_sfx_volume_changed( value : float)-> void:
 	OptionsSettings.sfx_audio_level = value
 	pass
@@ -151,13 +183,22 @@ func _on_credits_button_pressed() -> void:
 func _on_close_credits_overlay_button() -> void:
 	_instanced_credits_overlay_screen.queue_free()
 
-
+# NOTE: Para reagir a um quit, usar esse modelo
+# e propagar a notificação como você fez ali embaixo
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		# auto-save
+		pass
 
 #Quit game
 func _on_quit_game_button_pressed() -> void:
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	get_tree().quit() 
+
 #endregion
+
+func save():
+	var saveables = get_tree().get_nodes_in_group("saveable")
 
 
 #region Debug
@@ -178,6 +219,10 @@ func debug() -> void:
 		_on_quit_game_button_pressed()
 	ImGui.SeparatorText("Options")
 	
+	# NOTE: Como pegar string de enum
+	var difficulty_string: String = OptionsSettings.Difficulty.keys()[OptionsSettings.selected_difficulty]
+	ImGui.Text(difficulty_string)
+	
 	ImGui.BeginTabBar("Settings#left_tabs_bar")
 	if ImGui.BeginTabItem("Video"):
 		if ImGui.Button(str(OptionsSettings.window_mode)):
@@ -185,11 +230,12 @@ func debug() -> void:
 				_on_window_mode_toggled(true) #se estiver fullscreen seta para windowed
 			else:
 				_on_window_mode_toggled(false) # se estiver windowed seta para fullscreen
-		if ImGui.Button(str(OptionsSettings.VSync)):
-			if(OptionsSettings.VSync == DisplayServer.VSYNC_DISABLED):
-				_on_v_sync_toggled(true) # se estiver vsinc disabled seta para disabled
-			else:
-				_on_v_sync_toggled(false) # se estiver vsinc enabled seta para disabled
+		#var v_sync_string: String = DisplayServer.VSyncMode.
+		#ImGui.Text(str(OptionsSettings.VSync))
+			#if(OptionsSettings.VSync == DisplayServer.VSYNC_DISABLED):
+				#_on_v_sync_toggled(true) # se estiver vsinc disabled seta para disabled
+			#else:
+				#_on_v_sync_toggled(false) # se estiver vsinc enabled seta para disabled
 		ImGui.EndTabItem()
 	
 	ImGui.EndTabBar()

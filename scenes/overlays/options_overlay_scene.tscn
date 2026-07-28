@@ -48,7 +48,7 @@ color = Color(0.81960785, 0.7372549, 0.3764706, 1)
 light_mask = 2
 visibility_layer = 2
 layout_mode = 2
-current_tab = 1
+current_tab = 2
 
 [node name="Video" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=697462474]
 visible = false
@@ -76,6 +76,7 @@ layout_mode = 2
 text = "VSync"
 
 [node name="Audio" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=1460997739]
+visible = false
 light_mask = 2
 visibility_layer = 2
 layout_mode = 2
@@ -144,7 +145,6 @@ scrollable = false
 ticks_on_borders = true
 
 [node name="Gameplay" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=700508054]
-visible = false
 light_mask = 2
 visibility_layer = 2
 layout_mode = 2
@@ -190,6 +190,7 @@ layout_mode = 2
 text = "Language"
 
 [node name="LanguageMenuButton" type="MenuButton" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=931653843]
+visible = false
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_laidp")
 text = "English"
@@ -200,6 +201,15 @@ popup/item_0/checked = true
 popup/item_0/id = 0
 popup/item_1/text = "English"
 popup/item_1/checkable = 2
+popup/item_1/id = 1
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=469887902]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Portuguese"
+popup/item_0/id = 0
+popup/item_1/text = "English"
 popup/item_1/id = 1
 
 [node name="CloseOverlayButton" type="Button" parent="MarginContainer" unique_id=75960822]

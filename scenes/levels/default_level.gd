@@ -1,6 +1,10 @@
 class_name DefaultLevelScene
 extends Node
 
+# TODO: implementar um overlayzinho de instruções que pode ser fechado
+# com esc sem abrir o pause imediatamente. _input e _unhandled_input
+# guardam a resposta para esse enigma
+
 signal on_pause_game
 
 var player_speed := [1.0]
@@ -29,7 +33,7 @@ func _process(delta: float) -> void:
 
 func _on_pause_button_pressed() -> void:
 	on_pause_game.emit()
-	
+
 #region Debug
 
 func debug() -> void:
