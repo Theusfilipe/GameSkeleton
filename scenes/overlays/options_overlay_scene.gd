@@ -70,3 +70,33 @@ func _on_sfx_volume_h_slider_drag_ended(value_changed: bool) -> void:
 func _on_music_h_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:
 		music_volume_changed.emit(music_h_slider.value)
+		
+		
+
+func _on_window_mode_toggled(response : bool) -> void:
+	var window = get_window()
+	if response:
+		window.mode = Window.MODE_WINDOWED
+		OptionsSettings.window_mode = Window.MODE_WINDOWED
+	else:
+		window.mode = Window.MODE_FULLSCREEN
+		OptionsSettings.window_mode = Window.MODE_FULLSCREEN
+		
+func _on_v_sync_toggled(response : bool) -> void:
+	if response:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+		OptionsSettings.VSync = DisplayServer.VSYNC_ENABLED
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		OptionsSettings.VSync = DisplayServer.VSYNC_DISABLED
+func _on_master_volume_changed( value : float)-> void:
+	OptionsSettings.master_audio_level = value
+	
+	pass
+func _on_music_volume_changed( value : float)-> void:
+	OptionsSettings.music_audio_level = value
+	pass
+
+func _on_sfx_volume_changed( value : float)-> void:
+	OptionsSettings.sfx_audio_level = value
+	pass

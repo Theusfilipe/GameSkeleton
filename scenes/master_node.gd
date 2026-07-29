@@ -17,11 +17,9 @@ extends Node
 @export var debug_mode: bool
 @export var log: bool
 
-var _instanced_main_menu_screen : MainMenuScene
-var _instanced_options_overlay_screen : OptionsOverlayScene
+
 var _instanced_default_level : DefaultLevelScene
-var _instanced_saves_overlay_screen : SavesOverlayScene
-var _instanced_credits_overlay_screen : CreditsOverlayScene
+
 var _instanced_pause_overlay_screen : PauseOverlayScene
 
 var _current_scene : Scene
@@ -45,20 +43,17 @@ func _process(delta: float) -> void:
 
 
 func _load_main_menu_scene() -> void:
-	if _instanced_main_menu_screen == null:
-		_instanced_main_menu_screen = load(main_menu_scene_path).instantiate()
-	if get_child_count() == 0:
-		add_child(_instanced_main_menu_screen)
-	else:
-		var current_scene = get_child(0)
-		add_child(_instanced_main_menu_screen)
-		current_scene.queue_free()
-	
+	var _instanced_main_menu_screen : MainMenuScene = load(main_menu_scene_path).instantiate()
+	if _current_scene != null:
+		_current_scene.queue_free()
+
 	_instanced_main_menu_screen.start_button_pressed.connect(_on_start_button_pressed)
 	_instanced_main_menu_screen.saves_button_pressed.connect(_on_saves_button_pressed)
 	_instanced_main_menu_screen.options_button_pressed.connect(_on_options_button_pressed)
 	_instanced_main_menu_screen.credits_button_pressed.connect(_on_credits_button_pressed)
 	_instanced_main_menu_screen.quit_game_button_pressed.connect(_on_quit_game_button_pressed)
+	_current_scene = _instanced_main_menu_screen
+	add_child(_current_scene)
 
 #region Exemplo de encapsulação da lógica de loading onde
 # NOTE: Aqui retornaremos a scene instanciada para que possamos
@@ -74,11 +69,19 @@ func _change_scene(new_scene: String) -> Scene:
 		_current_scene = load(new_scene).instantiate()
 		return _current_scene
 
-func _go_to_game():
-	var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
-	game_scene_screen.on_pause_game.connect(_on_pause_game_button)
-	add_child(game_scene_screen)
-	
+func _change_overlay(new_overlay : String) -> Overlay:
+	if _current_overlay == null:
+		_current_overlay = load(new_overlay).instantiate()
+		return _current_overlay
+	else:
+		find_child(_current_overlay.name).queue_free()
+		_current_overlay = load(new_overlay).instantiate()
+		return _current_overlay
+
+#Closes the current overlay
+func _on_close_overlay() -> void:
+	if _current_overlay != null:
+		_current_overlay.queue_free()
 
 func _go_to_main_menu():
 	var main_menu_screen: MainMenuScene = _change_scene(main_menu_scene_path)
@@ -93,39 +96,31 @@ func _go_to_main_menu():
 #region Signals
 #From Main Menu
 func _on_start_button_pressed() -> void :
-	_go_to_game()
+	var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
+	game_scene_screen.on_pause_game.connect(_on_pause_game_button)
+	add_child(game_scene_screen)
 
 func _on_saves_button_pressed() -> void :
-	if _instanced_saves_overlay_screen == null :
-		_instanced_saves_overlay_screen = load(saves_overlay_scene_path).instantiate()
-		add_child(_instanced_saves_overlay_screen)
-		_instanced_saves_overlay_screen.close_button_pressed.connect(_on_close_save_overlay_button)
-	else:
-		print("_instanced_saves_overlay_screen is instantiated")
+	var instanced_saves_overlay : SavesOverlayScene = _change_overlay(saves_overlay_scene_path)
+	instanced_saves_overlay.close_button_pressed.connect(_on_close_overlay)
+	_current_overlay = instanced_saves_overlay
+	add_child(_current_overlay)
+	
 
 func _on_options_button_pressed() -> void :
-	# TODO: a lógica de como options functionam está acoplada ao main
-	# ela deveria estar em outro lugar específico ao options
-	if _instanced_options_overlay_screen == null :
-		_instanced_options_overlay_screen = load(options_overlay_scene_path).instantiate()
-		add_child(_instanced_options_overlay_screen)
-		_instanced_options_overlay_screen.close_button_pressed.connect(_on_close_options_overlay_button)
-		_instanced_options_overlay_screen.window_mode_toggled.connect(_on_window_mode_toggled)
-		_instanced_options_overlay_screen.v_sync_toggled.connect(_on_v_sync_toggled)
-		_instanced_options_overlay_screen.master_volume_changed.connect(_on_master_volume_changed)
-		_instanced_options_overlay_screen.music_volume_changed.connect(_on_music_volume_changed)
-		_instanced_options_overlay_screen.sfx_volume_changed.connect(_on_sfx_volume_changed)
-	else:
-		print("_instanced_options_overlay_screen is instantiated")
+	var _instanced_options_overlay_screen = _change_overlay(options_overlay_scene_path)
+	_instanced_options_overlay_screen.close_button_pressed.connect(_on_close_overlay)
+	_current_overlay = _instanced_options_overlay_screen
+	add_child(_current_overlay)
 
-#From game
+#From credits
 
-func _on_pause_game_button() -> void: #Not implemented yet, it sends back to main menu instead.
-	_instanced_pause_overlay_screen = load(pause_overlay_scene_path).instantiate()
-	get_tree().paused = true
-	add_child(_instanced_pause_overlay_screen)
-	_instanced_pause_overlay_screen.unpause.connect(_on_unpause)
-	_instanced_pause_overlay_screen.main_menu_request.connect(_on_main_menu_requested_from_pause)
+func _on_credits_button_pressed() -> void:
+	var _instanced_credits_overlay_screen = _change_overlay(credits_overlay_scene_path)
+	add_child(_instanced_credits_overlay_screen)
+	_instanced_credits_overlay_screen.close_button_pressed.connect(_on_close_overlay)
+
+
 
 #From Pause Overlay
 
@@ -138,57 +133,21 @@ func _on_main_menu_requested_from_pause() -> void:
 	_instanced_pause_overlay_screen.queue_free()
 	_load_main_menu_scene()
 
-#From Options
-func _on_close_options_overlay_button() -> void:
-	if _instanced_options_overlay_screen == null :
-		print("_instanced_options_overlay_screen is not instantiated")
-	else:
-		_instanced_options_overlay_screen.queue_free()
+#From game
 
-func _on_window_mode_toggled(response : bool) -> void:
-	var window = get_window()
-	if response:
-		window.mode = Window.MODE_WINDOWED
-		OptionsSettings.window_mode = Window.MODE_WINDOWED
-	else:
-		window.mode = Window.MODE_FULLSCREEN
-		OptionsSettings.window_mode = Window.MODE_FULLSCREEN
-		
-func _on_v_sync_toggled(response : bool) -> void:
-	if response:
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
-		OptionsSettings.VSync = DisplayServer.VSYNC_ENABLED
-	else:
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-		OptionsSettings.VSync = DisplayServer.VSYNC_DISABLED
-func _on_master_volume_changed( value : float)-> void:
-	OptionsSettings.master_audio_level = value
-	
-	pass
-func _on_music_volume_changed( value : float)-> void:
-	OptionsSettings.music_audio_level = value
-	pass
+func _on_pause_game_button() -> void: #Not implemented yet, it sends back to main menu instead.
+	_instanced_pause_overlay_screen = load(pause_overlay_scene_path).instantiate()
+	get_tree().paused = true
+	add_child(_instanced_pause_overlay_screen)
+	_instanced_pause_overlay_screen.unpause.connect(_on_unpause)
+	_instanced_pause_overlay_screen.main_menu_request.connect(_on_main_menu_requested_from_pause)
 
-func _on_sfx_volume_changed( value : float)-> void:
-	OptionsSettings.sfx_audio_level = value
-	pass
 
-#From Saves
-func _on_close_save_overlay_button() -> void:
-	_instanced_saves_overlay_screen.queue_free()
 
-#From credits
 
-func _on_credits_button_pressed() -> void:
-	if _instanced_credits_overlay_screen == null :
-		_instanced_credits_overlay_screen = load(credits_overlay_scene_path).instantiate()
-		add_child(_instanced_credits_overlay_screen)
-		_instanced_credits_overlay_screen.close_button_pressed.connect(_on_close_credits_overlay_button)
-	else:
-		print("_instanced_credits_overlay_screen is instantiated")
 
-func _on_close_credits_overlay_button() -> void:
-	_instanced_credits_overlay_screen.queue_free()
+
+
 
 # NOTE: Para reagir a um quit, usar esse modelo
 # e propagar a notificação como você fez ali embaixo
@@ -232,11 +191,11 @@ func debug() -> void:
 	
 	ImGui.BeginTabBar("Settings#left_tabs_bar")
 	if ImGui.BeginTabItem("Video"):
-		if ImGui.Button(str(OptionsSettings.window_mode)):
-			if(OptionsSettings.window_mode == Window.MODE_FULLSCREEN):
-				_on_window_mode_toggled(true) #se estiver fullscreen seta para windowed
-			else:
-				_on_window_mode_toggled(false) # se estiver windowed seta para fullscreen
+		#if ImGui.Button(str(OptionsSettings.window_mode)):
+			#if(OptionsSettings.window_mode == Window.MODE_FULLSCREEN):
+				#_on_window_mode_toggled(true) #se estiver fullscreen seta para windowed
+			#else:
+				#_on_window_mode_toggled(false) # se estiver windowed seta para fullscreen
 		#var v_sync_string: String = DisplayServer.VSyncMode.
 		#ImGui.Text(str(OptionsSettings.VSync))
 			#if(OptionsSettings.VSync == DisplayServer.VSYNC_DISABLED):
