@@ -1,5 +1,5 @@
 class_name DefaultLevelScene
-extends Node
+extends Scene
 
 # TODO: implementar um overlayzinho de instruções que pode ser fechado
 # com esc sem abrir o pause imediatamente. _input e _unhandled_input

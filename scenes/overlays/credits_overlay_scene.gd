@@ -1,5 +1,5 @@
 class_name CreditsOverlayScene
-extends Control
+extends Overlay
 
 signal close_button_pressed
 

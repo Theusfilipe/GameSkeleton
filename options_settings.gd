@@ -1,4 +1,4 @@
-extends Node
+extends Scene
 
 # NOTE: Sempre busque criar singletons usando scenes
 # para ter acesso a @export e outras coisas legais

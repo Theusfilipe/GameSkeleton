@@ -1,5 +1,5 @@
 class_name OptionsOverlayScene
-extends Control
+extends Overlay
 
 #TODO: Refazer dificuldade como toggle buttons, e usar button group
 # TODO: Refazer language como OptionButton

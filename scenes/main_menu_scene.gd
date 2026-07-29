@@ -1,5 +1,5 @@
 class_name MainMenuScene
-extends Control
+extends Scene
 
 signal start_button_pressed
 signal saves_button_pressed

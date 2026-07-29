@@ -1,5 +1,5 @@
 class_name PauseOverlayScene
-extends Control
+extends Overlay
 
 signal main_menu_request
 signal pause

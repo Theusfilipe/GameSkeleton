@@ -24,6 +24,10 @@ var _instanced_saves_overlay_screen : SavesOverlayScene
 var _instanced_credits_overlay_screen : CreditsOverlayScene
 var _instanced_pause_overlay_screen : PauseOverlayScene
 
+var _current_scene : Scene
+var _current_overlay : Overlay
+var _pause_screen : PauseOverlayScene
+
 # TODO: usar uma variável única para guardar "categorias" de estados do jogo
 #var _current_scene: Node
 
@@ -33,7 +37,7 @@ func _ready() -> void:
 	# TODO: Caso seja um estado permanente, mudar no inspector, para fazer parte
 	# dos defaults do node
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	_load_main_menu_scene()
+	_go_to_main_menu()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -61,32 +65,35 @@ func _load_main_menu_scene() -> void:
 # nos conectar aos signals dela
 # TODO: Implementar loading e fade in/fade out a partir dessa nova lógica
 
-#func _change_scene(new_scene: String) -> Node:
-	# ver se já tem uma scene ligada
-	# se tiver, desinstanciar ela
-	# instanciar a scene nova
-	# retornar a scene instanciada
+func _change_scene(new_scene: String) -> Scene:
+	if _current_scene == null:
+		_current_scene = load(new_scene).instantiate()
+		return _current_scene
+	else:
+		get_child(0).queue_free()
+		_current_scene = load(new_scene).instantiate()
+		return _current_scene
 
-#func _go_to_game():
-	#var game: Game = _change_scene(_game_scene)
-	#game.si
+func _go_to_game():
+	var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
+	game_scene_screen.on_pause_game.connect(_on_pause_game_button)
+	add_child(game_scene_screen)
+	
+
+func _go_to_main_menu():
+	var main_menu_screen: MainMenuScene = _change_scene(main_menu_scene_path)
+	main_menu_screen.start_button_pressed.connect(_on_start_button_pressed)
+	main_menu_screen.options_button_pressed.connect(_on_options_button_pressed)
+	main_menu_screen.saves_button_pressed.connect(_on_saves_button_pressed)
+	main_menu_screen.credits_button_pressed.connect(_on_credits_button_pressed)
+	main_menu_screen.quit_game_button_pressed.connect(_on_quit_game_button_pressed)
+	_current_scene = main_menu_screen
+	add_child(_current_scene)
 
 #region Signals
 #From Main Menu
 func _on_start_button_pressed() -> void :
-	if _instanced_default_level == null:
-		_instanced_default_level = load(default_level_scene_path).instantiate()
-		if get_child_count() == 0:
-			add_child(_instanced_default_level)
-		else:
-			var current_scene = get_child(0)
-			add_child(_instanced_default_level)
-			current_scene.queue_free()
-
-		_instanced_default_level.on_pause_game.connect(_on_pause_game_button)
-	else:
-		# NOTE: exemplo de uso da bool log para logar coisas pertinentes a essa classe
-		if log: print("_instanced_default_level is instantiated")
+	_go_to_game()
 
 func _on_saves_button_pressed() -> void :
 	if _instanced_saves_overlay_screen == null :
