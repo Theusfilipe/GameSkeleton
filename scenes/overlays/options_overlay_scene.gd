@@ -5,12 +5,7 @@ extends Overlay
 # TODO: Refazer language como OptionButton
 
 signal close_button_pressed
-signal window_mode_toggled(bool)
-signal v_sync_toggled(bool)
 
-signal master_volume_changed(float)
-signal sfx_volume_changed(float)
-signal music_volume_changed(float)
 
 @onready var window_mode_check_box: CheckBox = %WindowModeCheckBox
 @onready var v_sync_check_box: CheckBox = %VSyncCheckBox
@@ -45,58 +40,43 @@ func _on_close_overlay_button_pressed() -> void:
 
 
 func _on_window_mode_check_box_toggled(toggled_on: bool) -> void:
-	if toggled_on:
-		window_mode_toggled.emit(true) #if it was toggled on send true
-	else:
-		window_mode_toggled.emit(false) #if toggled of send false
-
-
-func _on_v_sync_check_box_toggled(toggled_on: bool) -> void:
-	if toggled_on:
-		v_sync_toggled.emit(true) #if it was toggled on send true
-	else:
-		v_sync_toggled.emit(false) #if toggled of send false
-
-
-func _on_master_volume_h_slider_drag_ended(value_changed: bool) -> void:
-	if value_changed:
-		master_volume_changed.emit(master_volume_h_slider.value)
-
-func _on_sfx_volume_h_slider_drag_ended(value_changed: bool) -> void:
-	if value_changed:
-		sfx_volume_changed.emit(sfx_volume_h_slider.value)
-
-
-func _on_music_h_slider_drag_ended(value_changed: bool) -> void:
-	if value_changed:
-		music_volume_changed.emit(music_h_slider.value)
-		
-		
-
-func _on_window_mode_toggled(response : bool) -> void:
 	var window = get_window()
-	if response:
+	if toggled_on:
 		window.mode = Window.MODE_WINDOWED
 		OptionsSettings.window_mode = Window.MODE_WINDOWED
 	else:
 		window.mode = Window.MODE_FULLSCREEN
 		OptionsSettings.window_mode = Window.MODE_FULLSCREEN
-		
-func _on_v_sync_toggled(response : bool) -> void:
-	if response:
+
+
+func _on_v_sync_check_box_toggled(toggled_on: bool) -> void:
+	if toggled_on:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 		OptionsSettings.VSync = DisplayServer.VSYNC_ENABLED
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		OptionsSettings.VSync = DisplayServer.VSYNC_DISABLED
-func _on_master_volume_changed( value : float)-> void:
-	OptionsSettings.master_audio_level = value
-	
-	pass
-func _on_music_volume_changed( value : float)-> void:
-	OptionsSettings.music_audio_level = value
-	pass
 
-func _on_sfx_volume_changed( value : float)-> void:
-	OptionsSettings.sfx_audio_level = value
-	pass
+
+func _on_master_volume_h_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		OptionsSettings.master_audio_level = master_volume_h_slider.value
+
+func _on_sfx_volume_h_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		OptionsSettings.music_audio_level = sfx_volume_h_slider.value
+
+
+func _on_music_h_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		OptionsSettings.sfx_audio_level = music_h_slider.value
+
+
+func _on_difficulty_button_toggled(toggled_on: bool, source: BaseButton) -> void:
+	if toggled_on :
+		if source.name == "EasyButton":
+			OptionsSettings.selected_difficulty = OptionsSettings.Difficulty.EASY
+		elif source.name == "MediumButton":
+			OptionsSettings.selected_difficulty = OptionsSettings.Difficulty.MEDIUM
+		elif source.name == "HardButton":
+			OptionsSettings.selected_difficulty = OptionsSettings.Difficulty.HARD

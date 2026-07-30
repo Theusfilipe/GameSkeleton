@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dtxyd88kq0m6a" path="res://scenes/overlays/options_overlay_scene.gd" id="1_gl3hq"]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_gl3hq"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_laidp"]
 bg_color = Color(0.11119685, 0.11119685, 0.11119678, 1)
 border_color = Color(0.06469657, 0.06469653, 0.06469646, 1)
@@ -68,7 +70,7 @@ layout_mode = 2
 [node name="WindowModeCheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer" unique_id=646359302]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Window Mode"
+text = "Windowed Mode"
 
 [node name="VSyncCheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/CenterContainer/VideoOptionsContainer" unique_id=26588938]
 unique_name_in_owner = true
@@ -170,15 +172,25 @@ layout_mode = 2
 text = "Difficulty"
 
 [node name="EasyButton" type="Button" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=158861962]
+unique_name_in_owner = true
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gl3hq")
 text = "Easy"
 
 [node name="MediumButton" type="Button" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=2121502048]
+unique_name_in_owner = true
 layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_gl3hq")
 text = "Medium"
 
 [node name="HardButton" type="Button" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer" unique_id=1814985857]
+unique_name_in_owner = true
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gl3hq")
 text = "Hard"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer" unique_id=162556882]
@@ -223,4 +235,7 @@ text = "X"
 [connection signal="drag_ended" from="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/MasterVolumeContainer2/MasterVolumeHSlider" to="." method="_on_master_volume_h_slider_drag_ended"]
 [connection signal="drag_ended" from="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer2/SFXVolumeHSlider" to="." method="_on_sfx_volume_h_slider_drag_ended"]
 [connection signal="drag_ended" from="MarginContainer/TabContainer/Audio/CenterContainer/AudioOptionsContainer/SFXVolumeContainer/MusicHSlider" to="." method="_on_music_h_slider_drag_ended"]
+[connection signal="toggled" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer/EasyButton" to="." method="_on_difficulty_button_toggled" flags=18]
+[connection signal="toggled" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer/MediumButton" to="." method="_on_difficulty_button_toggled" flags=18]
+[connection signal="toggled" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer/HardButton" to="." method="_on_difficulty_button_toggled" flags=18]
 [connection signal="pressed" from="MarginContainer/CloseOverlayButton" to="." method="_on_close_overlay_button_pressed"]

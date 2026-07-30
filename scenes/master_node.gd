@@ -18,13 +18,13 @@ extends Node
 @export var log: bool
 
 
-var _instanced_default_level : DefaultLevelScene
+
 
 var _instanced_pause_overlay_screen : PauseOverlayScene
 
 var _current_scene : Scene
 var _current_overlay : Overlay
-var _pause_screen : PauseOverlayScene
+
 
 # TODO: usar uma variável única para guardar "categorias" de estados do jogo
 #var _current_scene: Node
@@ -46,7 +46,6 @@ func _load_main_menu_scene() -> void:
 	var _instanced_main_menu_screen : MainMenuScene = load(main_menu_scene_path).instantiate()
 	if _current_scene != null:
 		_current_scene.queue_free()
-
 	_instanced_main_menu_screen.start_button_pressed.connect(_on_start_button_pressed)
 	_instanced_main_menu_screen.saves_button_pressed.connect(_on_saves_button_pressed)
 	_instanced_main_menu_screen.options_button_pressed.connect(_on_options_button_pressed)
@@ -98,14 +97,15 @@ func _go_to_main_menu():
 func _on_start_button_pressed() -> void :
 	var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
 	game_scene_screen.on_pause_game.connect(_on_pause_game_button)
-	add_child(game_scene_screen)
+	_current_scene = game_scene_screen
+	add_child(_current_scene)
 
 func _on_saves_button_pressed() -> void :
 	var instanced_saves_overlay : SavesOverlayScene = _change_overlay(saves_overlay_scene_path)
 	instanced_saves_overlay.close_button_pressed.connect(_on_close_overlay)
 	_current_overlay = instanced_saves_overlay
 	add_child(_current_overlay)
-	
+
 
 func _on_options_button_pressed() -> void :
 	var _instanced_options_overlay_screen = _change_overlay(options_overlay_scene_path)
@@ -117,10 +117,9 @@ func _on_options_button_pressed() -> void :
 
 func _on_credits_button_pressed() -> void:
 	var _instanced_credits_overlay_screen = _change_overlay(credits_overlay_scene_path)
-	add_child(_instanced_credits_overlay_screen)
 	_instanced_credits_overlay_screen.close_button_pressed.connect(_on_close_overlay)
-
-
+	_current_overlay = _instanced_credits_overlay_screen
+	add_child(_current_overlay)
 
 #From Pause Overlay
 
@@ -141,12 +140,6 @@ func _on_pause_game_button() -> void: #Not implemented yet, it sends back to mai
 	add_child(_instanced_pause_overlay_screen)
 	_instanced_pause_overlay_screen.unpause.connect(_on_unpause)
 	_instanced_pause_overlay_screen.main_menu_request.connect(_on_main_menu_requested_from_pause)
-
-
-
-
-
-
 
 
 # NOTE: Para reagir a um quit, usar esse modelo
