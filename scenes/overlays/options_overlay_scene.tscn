@@ -4,10 +4,6 @@
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_gl3hq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_laidp"]
-bg_color = Color(0.11119685, 0.11119685, 0.11119678, 1)
-border_color = Color(0.06469657, 0.06469653, 0.06469646, 1)
-
 [node name="OptionsOverlayScene" type="Control" unique_id=311195503]
 layout_mode = 3
 anchors_preset = 15
@@ -107,8 +103,9 @@ text = "Master Volume"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-value = 100.0
-rounded = true
+max_value = 1.0
+step = 0.05
+value = 1.0
 scrollable = false
 ticks_on_borders = true
 
@@ -124,8 +121,9 @@ text = "SFX Volume"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-value = 100.0
-rounded = true
+max_value = 1.0
+step = 0.05
+value = 1.0
 scrollable = false
 ticks_on_borders = true
 
@@ -141,8 +139,9 @@ text = "Music Volume"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-value = 100.0
-rounded = true
+max_value = 1.0
+step = 0.05
+value = 1.0
 scrollable = false
 ticks_on_borders = true
 
@@ -201,27 +200,14 @@ alignment = 1
 layout_mode = 2
 text = "Language"
 
-[node name="LanguageMenuButton" type="MenuButton" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=931653843]
-visible = false
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_laidp")
-text = "English"
-item_count = 2
-popup/item_0/text = "Portuguese"
-popup/item_0/checkable = 2
-popup/item_0/checked = true
-popup/item_0/id = 0
-popup/item_1/text = "English"
-popup/item_1/checkable = 2
-popup/item_1/id = 1
-
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=469887902]
+[node name="LanguageOptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer" unique_id=469887902]
+unique_name_in_owner = true
 layout_mode = 2
 selected = 0
 item_count = 2
-popup/item_0/text = "Portuguese"
+popup/item_0/text = "English"
 popup/item_0/id = 0
-popup/item_1/text = "English"
+popup/item_1/text = "Portuguese"
 popup/item_1/id = 1
 
 [node name="CloseOverlayButton" type="Button" parent="MarginContainer" unique_id=75960822]
@@ -238,4 +224,5 @@ text = "X"
 [connection signal="toggled" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer/EasyButton" to="." method="_on_difficulty_button_toggled" flags=18]
 [connection signal="toggled" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer/MediumButton" to="." method="_on_difficulty_button_toggled" flags=18]
 [connection signal="toggled" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/DifficultyContainer/HardButton" to="." method="_on_difficulty_button_toggled" flags=18]
+[connection signal="item_selected" from="MarginContainer/TabContainer/Gameplay/CenterContainer/GameplayOptionsContainer/HBoxContainer/LanguageOptionButton" to="." method="_on_language_option_button_item_selected"]
 [connection signal="pressed" from="MarginContainer/CloseOverlayButton" to="." method="_on_close_overlay_button_pressed"]

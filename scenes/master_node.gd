@@ -178,9 +178,6 @@ func debug() -> void:
 		_on_quit_game_button_pressed()
 	ImGui.SeparatorText("Options")
 	
-	# NOTE: Como pegar string de enum
-	var difficulty_string: String = OptionsSettings.Difficulty.keys()[OptionsSettings.selected_difficulty]
-	ImGui.Text(difficulty_string)
 	
 	ImGui.BeginTabBar("Settings#left_tabs_bar")
 	if ImGui.BeginTabItem("Video"):

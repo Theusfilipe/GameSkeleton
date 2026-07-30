@@ -64,9 +64,11 @@ position = Vector2(33, 314)
 unique_name_in_owner = true
 stream = ExtResource("4_8v24j")
 autoplay = true
+bus = &"Music"
 
 [node name="TrampolinePlayer" type="AudioStreamPlayer" parent="Audio" unique_id=1947263525]
 unique_name_in_owner = true
 stream = ExtResource("5_stx6a")
+bus = &"SFX"
 
 [connection signal="pressed" from="Control/PauseButton" to="." method="_on_pause_button_pressed"]
