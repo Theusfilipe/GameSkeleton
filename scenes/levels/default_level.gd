@@ -7,6 +7,8 @@ extends Scene
 
 signal on_pause_game
 
+var paused : bool = false
+
 var player_speed := [1.0]
 
 var loops = 0
@@ -18,11 +20,13 @@ var loops = 0
 @onready var loops_label: Label = %LoopsLabel
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_PAUSABLE
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	debug()
+	if paused:
+		paused = false
 	if player.position.x > 1100:
 		trampoline_player.play()
 	if player.position.x > 1150:
@@ -30,8 +34,19 @@ func _process(delta: float) -> void:
 		loops +=1
 		loops_label.text = str(loops)
 
+func _unhandled_input(event):
+	match event.get_class():
+		"InputEventKey":
+			if Input.is_action_pressed("ui_cancel"):
+				if !paused: #se não estiver pausado pausar
+					paused = true
+					on_pause_game.emit()
+				else:
+					return
+
 
 func _on_pause_button_pressed() -> void:
+	paused = true
 	on_pause_game.emit()
 
 #region Debug

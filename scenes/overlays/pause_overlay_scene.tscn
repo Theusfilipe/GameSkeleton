@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cwh40f8dvjggk" path="res://scenes/overlays/pause_overlay_scene.gd" id="1_26tku"]
 
 [node name="PauseOverlay" type="Control" unique_id=1030614994]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,6 +52,17 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Main Menu"
+
+[node name="OptionsButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer" unique_id=61731025]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Options"
+
+[node name="SaveButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer" unique_id=1281897578]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Save"
 
 [node name="UnpauseButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer" unique_id=551401025]
 layout_mode = 2

@@ -57,6 +57,7 @@ func _ready() -> void:
 
 
 func _on_close_overlay_button_pressed() -> void:
+	OptionsSettings.save_configs()
 	close_button_pressed.emit()
 
 

@@ -15,8 +15,8 @@ enum Language {
 
 @export_category("Debug")
 @export var debug_mode: bool
-@export var log: bool
 
+var config = ConfigFile.new()
 var _window_mode : Window.Mode = Window.MODE_FULLSCREEN
 var _VSync : DisplayServer.VSyncMode = DisplayServer.VSYNC_DISABLED
 
@@ -31,7 +31,28 @@ var _sfx_audio_level : float = 1.0
 var _music_audio_level : float = 1.0
 
 var _selected_difficulty : Difficulty = Difficulty.MEDIUM
-var _selected_language : Language = Language.PORTUGUESE
+var _selected_language : Language = Language.ENGLISH
+
+func _ready() -> void:
+	var err = config.load("res://config.cfg")
+	
+	if err != OK:
+		return
+	
+	for section in config.get_sections():
+		match section:
+			"Video":
+				set_window_mode(int(config.get_value("Video", "_window_mode")) as Window.Mode)
+				set_VSync(int(config.get_value("Video", "_VSync")) as DisplayServer.VSyncMode)
+			"Audio":
+				set_master_audio_level(float(config.get_value("Audio", "_master_audio_level")))
+				set_sfx_audio_level(float(config.get_value("Audio", "_sfx_audio_level")))
+				set_music_audio_level(float(config.get_value("Audio", "_music_audio_level")))
+			"Gameplay":
+				set_difficulty(int(config.get_value("Gameplay", "_selected_difficulty")) as Difficulty)
+				set_language(int(config.get_value("Gameplay", "_selected_language")) as Language) 
+			
+	
 
 func _process(delta: float) -> void:
 	if debug_mode:
@@ -102,9 +123,21 @@ func set_language(this_language : Language) -> void:
 	_selected_language = this_language
 #endregion
 
+func save_configs() -> void:
+	#Save all video vars
+	config.set_value("Video", "_window_mode", _window_mode)
+	config.set_value("Video", "_VSync", _VSync)
+	#save all audio vars
+	config.set_value("Audio", "_master_audio_level", _master_audio_level)
+	config.set_value("Audio", "_sfx_audio_level", _sfx_audio_level)
+	config.set_value("Audio", "_music_audio_level", _music_audio_level)
+	#save all gameplay vars
+	config.set_value("Gameplay", "_selected_difficulty", _selected_difficulty)
+	config.set_value("Gameplay", "_selected_language", _selected_language)
+	
+	# Save it to a file (overwrite if already exists).
+	config.save("res://config.cfg")
 
-# TODO: Completar esse debug
-# pode ser apenas monitoramento
 func render_debug():
 	if not debug_mode: return
 	ImGui.Begin(name)

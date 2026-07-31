@@ -11,6 +11,7 @@ atlas = ExtResource("1_qynkw")
 region = Rect2(8, 20, 511, 433)
 
 [node name="DefaultLevel" type="Node" unique_id=1486081524]
+process_mode = 1
 script = ExtResource("1_3t7qk")
 
 [node name="Control" type="Control" parent="." unique_id=277462321]

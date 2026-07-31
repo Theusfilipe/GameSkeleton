@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://bgfw4ca6mf2gs" path="res://art/music/Starting Out Waltz Vivace.mp3" id="2_7hcs8"]
 
 [node name="MainMenuScene" type="Node" unique_id=867430163]
+process_mode = 3
 script = ExtResource("1_7hcs8")
 
 [node name="Control" type="Control" parent="." unique_id=578100511]

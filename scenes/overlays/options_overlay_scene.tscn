@@ -5,6 +5,7 @@
 [sub_resource type="ButtonGroup" id="ButtonGroup_gl3hq"]
 
 [node name="OptionsOverlayScene" type="Control" unique_id=311195503]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -31,10 +31,7 @@ var _current_overlay : Overlay
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#current_window_mode = Window.mode
-	# TODO: Caso seja um estado permanente, mudar no inspector, para fazer parte
-	# dos defaults do node
-	process_mode = Node.PROCESS_MODE_ALWAYS
+
 	_go_to_main_menu()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -134,7 +131,7 @@ func _on_main_menu_requested_from_pause() -> void:
 
 #From game
 
-func _on_pause_game_button() -> void: #Not implemented yet, it sends back to main menu instead.
+func _on_pause_game_button() -> void: 
 	_instanced_pause_overlay_screen = load(pause_overlay_scene_path).instantiate()
 	get_tree().paused = true
 	add_child(_instanced_pause_overlay_screen)

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bg8bv1g13b3fo"]
 
 [node name="SaveUnitScene" type="Control" unique_id=424454023]
+process_mode = 3
 custom_maximum_size = Vector2(220, 80)
 layout_mode = 3
 anchor_right = 0.712
