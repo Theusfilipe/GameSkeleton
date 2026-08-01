@@ -54,11 +54,16 @@ func _ready() -> void:
 
 #func _process(delta: float) -> void:
 #	pass
-
+func _unhandled_input(event):
+	match event.get_class():
+		"InputEventKey":
+			if Input.is_action_pressed("ui_cancel"):
+				_on_close_overlay_button_pressed()
 
 func _on_close_overlay_button_pressed() -> void:
 	OptionsSettings.save_configs()
 	close_button_pressed.emit()
+
 
 
 #region Video

@@ -10,7 +10,7 @@
 atlas = ExtResource("1_qynkw")
 region = Rect2(8, 20, 511, 433)
 
-[node name="DefaultLevel" type="Node" unique_id=1486081524]
+[node name="DefaultLevel" type="Node" unique_id=1486081524 groups=["saveable"]]
 process_mode = 1
 script = ExtResource("1_3t7qk")
 
@@ -55,7 +55,7 @@ horizontal_alignment = 1
 
 [node name="LevelEnviroment" type="Node2D" parent="." unique_id=476716239]
 
-[node name="Player" parent="LevelEnviroment" unique_id=1223239661 instance=ExtResource("2_dpfjh")]
+[node name="Player" parent="LevelEnviroment" unique_id=1223239661 groups=["saveable"] instance=ExtResource("2_dpfjh")]
 unique_name_in_owner = true
 position = Vector2(33, 314)
 

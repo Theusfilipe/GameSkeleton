@@ -43,12 +43,21 @@ func _unhandled_input(event):
 					on_pause_game.emit()
 				else:
 					return
+#region Save
+func save():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"loops" : loops, 
+	}
+	return save_dict
+#endregion
 
-
+#region Signals
 func _on_pause_button_pressed() -> void:
 	paused = true
 	on_pause_game.emit()
-
+#endregion
 #region Debug
 
 func debug() -> void:
