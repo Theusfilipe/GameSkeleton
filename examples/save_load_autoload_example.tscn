@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bgov1382naltk"]
+
+[sub_resource type="GDScript" id="GDScript_smsg0"]
+script/source = "extends Node2D
+
+var current_load: GameLoad
+
+func load_game():
+	current_load = GameLoad.new()
+	var json_file
+	
+	if json_file[\"vehicle_stats\"][\"speed\"]:
+		current_load.acceleration = json_file[\"vehicle_stats\"][\"speed\"]
+	elif json_file[\"vehicle_stats\"][\"acceleration\"]:
+		current_load.acceleration = json_file[\"vehicle_stats\"][\"acceleration\"]
+
+class GameLoad:
+	var current_level: int = 0
+	var player_name: String = \"\"
+	var acceleration: float = 100
+"
+
+[node name="Node2D" type="Node2D" unique_id=1413231966]
+script = SubResource("GDScript_smsg0")

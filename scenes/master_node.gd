@@ -1,6 +1,8 @@
 class_name MasterNode
 extends Node
 
+const SAVE_DIRECTORY := "user://saves/"
+
 # NOTE: O master deve se preocupar com os macro-estados do jogo
 # exemplo: do title pra game, da game pra results, e por aí vai
 # não necessariamente ele vai se preocupar com overlays individuais
@@ -14,11 +16,16 @@ extends Node
 @export_file("*.tscn") var credits_overlay_scene_path : String = "res://scenes/overlays/credits_overlay_scene.tscn"
 @export_file("*.tscn") var pause_overlay_scene_path : String = "res://scenes/overlays/pause_overlay_scene.tscn"
 
+@export var level_scene_paths: Array[String] = [
+	"res://scenes/levels/default_level.tscn",
+	"res://scenes/levels/lava_level.tscn"
+]
+
 @export_category("Debug")
 @export var debug_mode: bool
 @export var log: bool
 
-
+var current_load: GameLoad
 
 
 var _instanced_pause_overlay_screen : PauseOverlayScene
@@ -32,7 +39,8 @@ var _current_overlay : Overlay
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
+	# NOTE: sendo autoload, o Save/Load poderia ser acessado aqui
+	# para controlar a inicialização do jogo
 	_go_to_main_menu()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -95,9 +103,11 @@ func _go_to_main_menu():
 #region Signals
 #From Main Menu
 func _on_start_button_pressed() -> void :
+	#var level_to_load: String = level_scene_paths[SaveLoad.current_game.current_level]
 	var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
 	game_scene_screen.on_pause_game.connect(_on_pause_game_button)
 	_current_scene = game_scene_screen
+	#_current_scene.initialize(SaveLoad.current_game.loops)
 	add_child(_current_scene)
 
 func _on_saves_button_pressed() -> void :
@@ -159,9 +169,29 @@ func _on_quit_game_button_pressed() -> void:
 
 
 
-func save_game(save_name : String):
+func save_game(save_name : String = "test"):
+	# TODO: comentar PESADAMENTE essa função e fazer branches lógicos para
+	# lidar com erros e exceções
+	
+	# NOTE: caso haja uma variável na classe com o nome igual a de um
+	# parâmetro fazer: self.save_name = save_name
+	# TODO: resolver whatever this is 
 	save_name = save_name
-	var save_file = FileAccess.open("res://saves/"+save_name+".json", FileAccess.WRITE)
+	#var save_file = FileAccess.open("res://saves/"+save_name+".json", FileAccess.WRITE)
+	
+	# NOTE: Essas linhas são muito úteis para colocar no _ready do autoload de save
+	var error = DirAccess.make_dir_absolute(SAVE_DIRECTORY)
+	if error != OK:
+		print(error)
+		match error: 
+			ERR_ALREADY_EXISTS:
+				pass
+	
+	# NOTE: Essa aqui é melhor pra só ver se o diretório
+	DirAccess.dir_exists_absolute(SAVE_DIRECTORY)
+		
+	
+	var save_file = FileAccess.open(SAVE_DIRECTORY + save_name + ".json", FileAccess.WRITE)
 
 	var saveables = get_tree().get_nodes_in_group("saveable")
 	for node in saveables:
@@ -194,6 +224,9 @@ func load_game(path : String):
 	#	i.queue_free()
 	
 	var save_file = FileAccess.open(path, FileAccess.READ)
+	
+	current_load = GameLoad.new()
+	
 	while save_file.get_position() < save_file.get_length():
 		var json_string = save_file.get_line()
 		var json = JSON.new()
@@ -204,6 +237,12 @@ func load_game(path : String):
 			continue
 			
 		var node_data = json.data
+		
+		
+		current_load.current_level = node_data["current_level"]
+		
+		
+		
 		
 		if node_data["filename"] == "res://scenes/levels/default_level.tscn":
 			var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
@@ -270,3 +309,6 @@ func debug() -> void:
 	ImGui.EndTabBar()
 	
 	ImGui.End()
+
+class GameLoad:
+	var current_level: int = 0
