@@ -159,8 +159,9 @@ func _on_quit_game_button_pressed() -> void:
 
 
 
-func save_game():
-	var save_file = FileAccess.open("res://saves/savegame.json", FileAccess.WRITE)
+func save_game(save_name : String):
+	save_name = save_name
+	var save_file = FileAccess.open("res://saves/"+save_name+".json", FileAccess.WRITE)
 
 	var saveables = get_tree().get_nodes_in_group("saveable")
 	for node in saveables:
@@ -188,7 +189,7 @@ func load_game(path : String):
 	# during loading. This will vary wildly depending on the needs of a
 	# project, so take care with this step.
 	# For our example, we will accomplish this by deleting saveable objects.
-	var save_nodes = get_tree().get_nodes_in_group("savable")
+	#var save_nodes = get_tree().get_nodes_in_group("savable")
 	#for i in save_nodes: tirei essa parte porque iria deletar a cena 
 	#	i.queue_free()
 	
