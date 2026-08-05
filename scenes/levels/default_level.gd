@@ -19,8 +19,12 @@ var loops = 0
 
 @onready var loops_label: Label = %LoopsLabel
 
-func initialize(loops: int):
-	self.loops = loops
+func initialize(info : GameLoad):
+	print("Initializaing: " + str(info.current_level) +", "+ str(info.loops)+", "+ str(info.player_x) + ", " + str(info.player_y))
+	self.loops = info.loops
+	loops_label.text = str(info.loops)
+	player.position.x = info.player_x
+	player.position.y = info.player_y
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -46,8 +50,8 @@ func _unhandled_input(event):
 #region Save
 func save():
 	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
+		"object_type" : "level",
+		"current_level" : 0,
 		"loops" : loops, 
 	}
 	return save_dict

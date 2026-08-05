@@ -1,7 +1,7 @@
 class_name MasterNode
 extends Node
 
-const SAVE_DIRECTORY := "user://saves/"
+
 
 # NOTE: O master deve se preocupar com os macro-estados do jogo
 # exemplo: do title pra game, da game pra results, e por aí vai
@@ -25,7 +25,7 @@ const SAVE_DIRECTORY := "user://saves/"
 @export var debug_mode: bool
 @export var log: bool
 
-var current_load: GameLoad
+
 
 
 var _instanced_pause_overlay_screen : PauseOverlayScene
@@ -42,6 +42,8 @@ func _ready() -> void:
 	# NOTE: sendo autoload, o Save/Load poderia ser acessado aqui
 	# para controlar a inicialização do jogo
 	_go_to_main_menu()
+	
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -107,15 +109,15 @@ func _on_start_button_pressed() -> void :
 	var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
 	game_scene_screen.on_pause_game.connect(_on_pause_game_button)
 	_current_scene = game_scene_screen
-	#_current_scene.initialize(SaveLoad.current_game.loops)
 	add_child(_current_scene)
+	_current_scene.initialize(ScribeInstructor.load_game())
 
 func _on_saves_button_pressed() -> void :
-	#var instanced_saves_overlay : SavesOverlayScene = _change_overlay(saves_overlay_scene_path)
-	#instanced_saves_overlay.close_button_pressed.connect(_on_close_overlay)
-	#_current_overlay = instanced_saves_overlay
-	#add_child(_current_overlay)
-	load_game("res://saves/savegame.json")
+	var instanced_saves_overlay : SavesOverlayScene = _change_overlay(saves_overlay_scene_path)
+	instanced_saves_overlay.close_button_pressed.connect(_on_close_overlay)
+	_current_overlay = instanced_saves_overlay
+	add_child(_current_overlay)
+	
 
 
 func _on_options_button_pressed() -> void :
@@ -152,7 +154,7 @@ func _on_pause_game_button() -> void:
 	_instanced_pause_overlay_screen.unpause.connect(_on_unpause)
 	_instanced_pause_overlay_screen.main_menu_request.connect(_on_main_menu_requested_from_pause)
 	_instanced_pause_overlay_screen.options_menu_request.connect(_on_options_button_pressed)
-	_instanced_pause_overlay_screen.save.connect(save_game)
+	_instanced_pause_overlay_screen.save.connect(ScribeInstructor.save_game)
 
 
 # NOTE: Para reagir a um quit, usar esse modelo
@@ -169,106 +171,6 @@ func _on_quit_game_button_pressed() -> void:
 
 
 
-func save_game(save_name : String = "test"):
-	# TODO: comentar PESADAMENTE essa função e fazer branches lógicos para
-	# lidar com erros e exceções
-	
-	# NOTE: caso haja uma variável na classe com o nome igual a de um
-	# parâmetro fazer: self.save_name = save_name
-	# TODO: resolver whatever this is 
-	save_name = save_name
-	#var save_file = FileAccess.open("res://saves/"+save_name+".json", FileAccess.WRITE)
-	
-	# NOTE: Essas linhas são muito úteis para colocar no _ready do autoload de save
-	var error = DirAccess.make_dir_absolute(SAVE_DIRECTORY)
-	if error != OK:
-		print(error)
-		match error: 
-			ERR_ALREADY_EXISTS:
-				pass
-	
-	# NOTE: Essa aqui é melhor pra só ver se o diretório
-	DirAccess.dir_exists_absolute(SAVE_DIRECTORY)
-		
-	
-	var save_file = FileAccess.open(SAVE_DIRECTORY + save_name + ".json", FileAccess.WRITE)
-
-	var saveables = get_tree().get_nodes_in_group("saveable")
-	for node in saveables:
-		# Check the node is an instanced scene so it can be instanced again during load.
-		if node.scene_file_path.is_empty():
-			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-			continue
-		# Check the node has a save function.
-		if !node.has_method("save"):
-			print("persistent node '%s' is missing a save() function, skipped" % node.name)
-			continue
-		# Call the node's save function.
-		var node_data = node.call("save")
-		
-		# JSON provides a static method to serialized JSON string.
-		var json_string = JSON.stringify(node_data)
-		save_file.store_line(json_string)
-
-func load_game(path : String):
-	if not FileAccess.file_exists(path):
-		return # Error! We don't have a save to load.
-	
-
-	# We need to revert the game state so we're not cloning objects
-	# during loading. This will vary wildly depending on the needs of a
-	# project, so take care with this step.
-	# For our example, we will accomplish this by deleting saveable objects.
-	#var save_nodes = get_tree().get_nodes_in_group("savable")
-	#for i in save_nodes: tirei essa parte porque iria deletar a cena 
-	#	i.queue_free()
-	
-	var save_file = FileAccess.open(path, FileAccess.READ)
-	
-	current_load = GameLoad.new()
-	
-	while save_file.get_position() < save_file.get_length():
-		var json_string = save_file.get_line()
-		var json = JSON.new()
-		
-		var parse_result = json.parse(json_string)
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-			
-		var node_data = json.data
-		
-		
-		current_load.current_level = node_data["current_level"]
-		
-		
-		
-		
-		if node_data["filename"] == "res://scenes/levels/default_level.tscn":
-			var game_scene_screen: DefaultLevelScene = _change_scene(default_level_scene_path)
-			game_scene_screen.on_pause_game.connect(_on_pause_game_button)
-			game_scene_screen.loops = node_data["loops"] as int
-			add_child(game_scene_screen)
-			print(game_scene_screen.loops)
-			game_scene_screen.loops_label.text = str(game_scene_screen.loops)
-			_current_scene = game_scene_screen
-		elif node_data["filename"] == "res://scenes/player/player.tscn": 
-			#implementei isso porque estava dando bug no ImGui tentando acessar o speed do player
-			var game_scene_screen : DefaultLevelScene  = _current_scene
-			game_scene_screen.player.position.x = node_data["pos_x"]
-			game_scene_screen.player.position.y = node_data["pos_y"] # nunca muda mas foi salva
-		else:
-			# coloca todos os outros objetos na cena mas não tem mais nenhum
-			# Firstly, we need to create the object and add it to the tree and set its position.
-			var new_object = load(node_data["filename"]).instantiate()
-			get_node(node_data["parent"]).add_child(new_object)
-			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-
-			# Now we set the remaining variables.
-			for i in node_data.keys():
-				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
-					continue
-				new_object.set(i, node_data[i])
 
 #endregion
 
@@ -309,6 +211,3 @@ func debug() -> void:
 	ImGui.EndTabBar()
 	
 	ImGui.End()
-
-class GameLoad:
-	var current_level: int = 0

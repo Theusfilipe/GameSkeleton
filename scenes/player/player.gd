@@ -18,9 +18,8 @@ func _process(delta: float) -> void:
 
 func save():
 	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Vector2 is not supported by JSON
-		"pos_y" : position.y
+		"object_type": "player",
+		"player_x" : position.x,
+		"player_y" : position.y # Vector2 is not supported by JSON
 	}
 	return save_dict

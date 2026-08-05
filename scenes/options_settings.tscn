@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://b2rhvsafhcpl6"]
-
-[ext_resource type="Script" uid="uid://c71srq3i5w6p0" path="res://options_settings.gd" id="1_agy21"]
-
-[node name="OptionsSettings" type="Node" unique_id=319003069]
-script = ExtResource("1_agy21")
-debug_mode = true

@@ -23,6 +23,7 @@ buses/default_bus_layout="uid://bcp7ngbmhjbdb"
 
 ImGuiRoot="*uid://dugmpnsxaagba"
 OptionsSettings="*uid://b2rhvsafhcpl6"
+ScribeInstructor="*uid://b74u17fpobjiv"
 
 [display]
 

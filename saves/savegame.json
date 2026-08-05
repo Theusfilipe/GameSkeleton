@@ -1,2 +1,0 @@
-{"filename":"res://scenes/levels/default_level.tscn","loops":4,"parent":"/root/MasterNode"}
-{"filename":"res://scenes/player/player.tscn","parent":"/root/MasterNode/DefaultLevel/LevelEnviroment","pos_x":650.0,"pos_y":314.0}

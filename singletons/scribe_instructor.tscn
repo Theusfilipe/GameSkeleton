@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b74u17fpobjiv"]
+
+[ext_resource type="Script" uid="uid://diy1fxw2sgd1t" path="res://singletons/scribe_instructor.gd" id="1_ray47"]
+
+[node name="ScribeInstructor" type="Node" unique_id=1272439645]
+script = ExtResource("1_ray47")
